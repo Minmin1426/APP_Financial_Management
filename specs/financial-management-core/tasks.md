@@ -21,10 +21,11 @@
 
 **Purpose**: Cơ sở dữ liệu IndexedDB và các hàm tiện ích tính toán tiền tệ.
 
-- [ ] T005 Triển khai lớp quản lý cơ sở dữ liệu `src/db/db.ts` với Dexie.js (định nghĩa schemas cho ví, giao dịch, ngân sách, danh mục)
+- [ ] T005 Triển khai lớp quản lý cơ sở dữ liệu `src/db/db.ts` với Dexie.js (định nghĩa schemas cho ví, giao dịch, ngân sách, danh mục, auditLogs; bao gồm các trường userId và trường xóa mềm deletedAt/deletedBy)
 - [ ] T006 Tạo tệp populate dữ liệu mặc định `src/db/populate.ts` để sinh ra các Danh mục thu chi cơ bản (Ăn uống, Di chuyển, Mua sắm, Lương, v.v.)
 - [ ] T007 Xây dựng các hàm tiện ích tài chính tại `src/utils/finance.ts` (format tiền tệ `Intl.NumberFormat`, cộng trừ tiền tệ bằng số nguyên an toàn)
 - [ ] T008 Triển khai Hook quản lý trạng thái kết nối mạng `src/hooks/useOnlineStatus.ts`
+- [ ] T008a Xây dựng service ghi nhật ký kiểm toán `src/services/auditLogService.ts` để lưu vết các hành động CREATE, UPDATE, DELETE tài chính
 
 **Checkpoint**: Foundation ready - cơ sở dữ liệu hoạt động, các danh mục cơ bản được khởi tạo, sẵn sàng phát triển tính năng.
 
@@ -35,13 +36,13 @@
 **Goal**: Cho phép người dùng ghi chép giao dịch Thu/Chi và hiển thị lịch sử kèm cập nhật số dư ví tương ứng.
 
 ### Tests cho User Story 1
-- [ ] T009 Viết Unit Test cho logic cập nhật số dư ví khi thêm/sửa/xóa giao dịch tại `src/features/transactions/services/__tests__/transactionService.test.ts`
+- [ ] T009 Viết Unit Test cho logic cập nhật số dư ví khi thêm/sửa/xóa giao dịch tại `src/features/transactions/services/__tests__/transactionService.test.ts` (bao gồm test cho trường hợp Xóa mềm và sinh Nhật ký kiểm toán)
 - [ ] T010 Viết Integration Test cho form nhập giao dịch và bảng lịch sử giao dịch tại `src/features/transactions/components/__tests__/TransactionFlow.test.ts`
 
 ### Implementation cho User Story 1
-- [ ] T011 Xây dựng service quản lý giao dịch `src/features/transactions/services/transactionService.ts` thực hiện các truy vấn ACID-like (Dexie Transaction)
-- [ ] T012 Phát triển component UI Form thêm mới giao dịch `src/features/transactions/components/TransactionForm.tsx` (nhập số tiền, loại giao dịch, danh mục, ví, ngày tháng)
-- [ ] T013 Phát triển component danh sách lịch sử giao dịch `src/features/transactions/components/TransactionList.tsx` hỗ trợ phân trang hoặc tải thêm (lazy loading)
+- [ ] T011 Xây dựng service quản lý giao dịch `src/features/transactions/services/transactionService.ts` thực hiện các truy vấn ACID-like (Dexie Transaction), tích hợp cơ chế Xóa mềm (cập nhật deletedAt/deletedBy) và gọi `auditLogService`
+- [ ] T012 Phát triển component UI Form thêm mới giao dịch `src/features/transactions/components/TransactionForm.tsx` (nhập số tiền, loại giao dịch, danh mục, ví, ngày tháng, định nghĩa màu sắc UI xanh `#2ECC71` / đỏ `#E74C3C` chuẩn nghiệp vụ)
+- [ ] T013 Phát triển component danh sách lịch sử giao dịch `src/features/transactions/components/TransactionList.tsx` hỗ trợ phân trang, cuộn vô hạn kết hợp Virtual Scroll (cuộn ảo) khi số phần tử vượt quá 100 bản ghi để đảm bảo hiệu năng mượt mà
 - [ ] T014 Tạo component Tổng quan số dư tài khoản `src/features/dashboard/components/BalanceSummary.tsx` hiển thị tổng số tiền của tất cả các ví
 - [ ] T015 Tích hợp Form, Bảng lịch sử và Dashboard vào màn hình chính `src/features/dashboard/DashboardPage.tsx`
 

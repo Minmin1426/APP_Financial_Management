@@ -80,15 +80,19 @@ Người dùng muốn xem biểu đồ thống kê cơ cấu chi tiêu theo danh
 - **FR-002**: Hệ thống PHẢI tính toán tiền tệ bằng số nguyên (Integer) đại diện cho đơn vị nhỏ nhất (VND) để ngăn ngừa lỗi làm tròn số thực.
 - **FR-003**: Số dư ví PHẢI được cập nhật tự động ngay lập tức sau khi thêm, sửa hoặc xóa giao dịch liên quan.
 - **FR-004**: Hệ thống PHẢI định dạng hiển thị tiền tệ theo chuẩn Việt Nam (ví dụ: `1.500.000 ₫`) sử dụng `Intl.NumberFormat`.
-- **FR-005**: Danh sách giao dịch PHẢI hỗ trợ phân trang (Pagination) hoặc Lazy Loading để tránh giật lag khi số lượng giao dịch vượt quá 1000 dòng.
+- **FR-005**: Danh sách giao dịch PHẢI hỗ trợ phân trang (Pagination), Lazy Loading kết hợp với cuộn ảo (Virtual Scroll) khi danh sách vượt quá 100 bản ghi để tối ưu hiệu năng hiển thị.
 - **FR-006**: Hệ thống PHẢI cung cấp giao diện responsive tối ưu trên cả thiết bị di động (Mobile Web) và máy tính (Desktop Web).
+- **FR-007**: Hệ thống PHẢI áp dụng cơ chế Xóa mềm (Soft Delete) đối với các thực thể giao dịch, tài khoản/ví bằng cách cập nhật các thuộc tính `deletedAt` và `deletedBy` thay vì xóa vật lý.
+- **FR-008**: Hệ thống PHẢI tự động ghi nhận Nhật ký Kiểm toán (Audit Log) cho mỗi thao tác thêm, sửa, xóa (mềm) đối với giao dịch tài chính hoặc cập nhật tài khoản/ví.
+- **FR-009**: Giao diện PHẢI tuân thủ quy chuẩn màu sắc nghiệp vụ tài chính: Thu nhập hiển thị màu xanh lá (`#2ECC71`), Chi phí hiển thị màu đỏ (`#E74C3C`), Chuyển khoản hiển thị màu xanh dương/trung tính.
 
 ### Key Entities
 
-- **Wallet (Ví)**: Đại diện cho nguồn tiền. Thuộc tính: `id` (string), `name` (string), `type` (cash/bank/credit), `balance` (integer), `createdAt` (datetime).
+- **Wallet (Ví)**: Đại diện cho nguồn tiền. Thuộc tính: `id` (string), `userId` (string), `name` (string), `type` (cash/bank/credit), `balance` (integer), `createdAt` (datetime), `deletedAt` (datetime | null), `deletedBy` (string | null).
 - **Category (Danh mục)**: Phân loại giao dịch. Thuộc tính: `id` (string), `name` (string), `type` (income/expense), `icon` (string), `color` (string).
-- **Transaction (Giao dịch)**: Bản ghi thu/chi/chuyển khoản. Thuộc tính: `id` (string), `amount` (integer), `type` (income/expense/transfer), `walletId` (string), `destinationWalletId` (string - chỉ dùng cho transfer), `categoryId` (string), `notes` (string), `transactionDate` (date).
+- **Transaction (Giao dịch)**: Bản ghi thu/chi/chuyển khoản. Thuộc tính: `id` (string), `userId` (string), `amount` (integer), `type` (income/expense/transfer), `walletId` (string), `destinationWalletId` (string - chỉ dùng cho transfer), `categoryId` (string | null), `notes` (string), `transactionDate` (date), `createdAt` (datetime), `deletedAt` (datetime | null), `deletedBy` (string | null).
 - **Budget (Ngân sách)**: Hạn mức chi tiêu. Thuộc tính: `id` (string), `categoryId` (string), `limitAmount` (integer), `startDate` (date), `endDate` (date).
+- **AuditLog (Nhật ký Kiểm toán)**: Ghi vết thay đổi dữ liệu tài chính. Thuộc tính: `id` (string), `userId` (string), `action` (CREATE/UPDATE/DELETE), `entity` (wallet/transaction/budget), `entityId` (string), `oldValue` (string - JSON), `newValue` (string - JSON), `timestamp` (datetime).
 
 ---
 
