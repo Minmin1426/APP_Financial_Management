@@ -1,0 +1,11 @@
+{
+  "preset": "ts-jest",
+  "testEnvironment": "jsdom",
+  "setupFilesAfterEnv": ["<rootDir>/src/setupTests.ts"],
+  "moduleNameMapper": {
+    "\\.(css|less|scss|sass)$": "<rootDir>/src/__mocks__/styleMock.ts"
+  },
+  "transform": {
+    "^.+\\.tsx?$": ["ts-jest", { "tsconfig": "tsconfig.test.json" }]
+  }
+}

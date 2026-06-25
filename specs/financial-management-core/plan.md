@@ -82,13 +82,10 @@ import Dexie, { type Table } from 'dexie';
 
 export interface Wallet {
   id?: string;
-  userId: string; // Định danh người dùng
   name: string;
   type: 'cash' | 'bank' | 'credit';
   balance: number; // Lưu trữ dưới dạng số nguyên (VND)
   createdAt: Date;
-  deletedAt?: Date; // Trường xóa mềm
-  deletedBy?: string; // Người xóa
 }
 
 export interface Category {
@@ -101,7 +98,6 @@ export interface Category {
 
 export interface Transaction {
   id?: string;
-  userId: string; // Định danh người dùng
   amount: number; // Lưu dạng số nguyên
   type: 'income' | 'expense' | 'transfer';
   walletId: string;
@@ -110,8 +106,6 @@ export interface Transaction {
   notes: string;
   transactionDate: Date;
   createdAt: Date;
-  deletedAt?: Date; // Trường xóa mềm
-  deletedBy?: string; // Người xóa
 }
 
 export interface Budget {
@@ -122,32 +116,19 @@ export interface Budget {
   endDate: Date;
 }
 
-export interface AuditLog {
-  id?: string;
-  userId: string;
-  action: 'CREATE' | 'UPDATE' | 'DELETE';
-  entity: 'wallet' | 'transaction' | 'budget';
-  entityId: string;
-  oldValue?: string; // Dữ liệu cũ dạng JSON string
-  newValue?: string; // Dữ liệu mới dạng JSON string
-  timestamp: Date;
-}
-
 class FinancialDB extends Dexie {
   wallets!: Table<Wallet>;
   categories!: Table<Category>;
   transactions!: Table<Transaction>;
   budgets!: Table<Budget>;
-  auditLogs!: Table<AuditLog>;
 
   constructor() {
     super('FinancialDB');
     this.version(1).stores({
-      wallets: '++id, name, type, userId, deletedAt',
+      wallets: '++id, name, type',
       categories: '++id, name, type',
-      transactions: '++id, amount, type, walletId, categoryId, transactionDate, deletedAt',
-      budgets: '++id, categoryId, startDate, endDate',
-      auditLogs: '++id, userId, action, entity, timestamp'
+      transactions: '++id, amount, type, walletId, categoryId, transactionDate',
+      budgets: '++id, categoryId, startDate, endDate'
     });
   }
 }
