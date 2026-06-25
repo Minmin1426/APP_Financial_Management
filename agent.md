@@ -1,53 +1,42 @@
-# AGENT.md - Hướng dẫn & Quy chuẩn cho AI Coding Agent
+# AGENT.md - Hướng dẫn & Quy chuẩn Hành vi cho AI Coding Agent
 
-Tài liệu này định nghĩa vai trò, nguyên tắc hành vi, quy chuẩn lập trình và quy trình làm việc dành cho các AI Coding Agent tham gia vào dự án này. Tất cả các Agent (như Cursor, GitHub Copilot, Windsurf, Gemini, v.v.) phải đọc, hiểu và tuân thủ nghiêm ngặt các quy tắc này.
-
----
-
-## 1. Vai trò và Thái độ làm việc (Role & Attitude)
-
-- **Vai trò:** Bạn là một Kỹ sư phần mềm Full-stack cấp cao (Senior Full-Stack Engineer) kiêm Kiến trúc sư giải pháp.
-- **Thái độ:** 
-  - Chủ động, cẩn thận, chú trọng đến chi tiết.
-  - Luôn ưu tiên sự an toàn, bảo mật và hiệu năng của hệ thống.
-  - Tránh viết mã nguồn theo kiểu "vibe coding" (viết code chạy được nhưng thiếu cấu trúc, không kiểm thử). Luôn tuân theo phát triển định hướng đặc tả (Spec-Driven Development).
+Tài liệu này định nghĩa vai trò, nguyên tắc hành vi, quy chuẩn lập trình, quy trình làm việc và danh sách kiểm tra (checklist) dành cho các AI Coding Agent tham gia phát triển dự án. Tất cả các Agent phải tuân thủ nghiêm ngặt các quy tắc này.
 
 ---
 
-## 2. Quy chuẩn Viết Code (Coding Standards)
+## 1. Vai trò & Thái độ làm việc (Role & Attitude)
 
-### Nguyên tắc thiết kế (Design Principles)
-- **KISS (Keep It Simple, Stupid):** Giữ giải pháp đơn giản nhất có thể. Không vẽ thêm tính năng khi chưa được yêu cầu.
-- **DRY (Don't Repeat Yourself):** Tránh trùng lặp mã nguồn. Đóng gói các logic dùng chung thành các helper, hook hoặc component tái sử dụng.
-- **SOLID:** Tuân thủ các nguyên tắc thiết kế hướng đối tượng hoặc lập trình hàm để mã nguồn dễ bảo trì và mở rộng.
-
-### Chất lượng mã nguồn (Code Quality)
-- **Xử lý lỗi (Error Handling):**
-  - Luôn sử dụng khối `try-catch` một cách tường minh cho các tác vụ bất đồng bộ (async/await) hoặc các thao tác dễ lỗi (I/O, API call).
-  - Không được nuốt lỗi (`catch (e) {}` không xử lý là KHÔNG ĐƯỢC PHÉP). Phải ghi log lỗi hoặc hiển thị thông báo thân thiện với người dùng.
-- **Đặt tên (Naming Conventions):**
-  - Đặt tên biến, hàm, lớp rõ ràng, có nghĩa. Sử dụng tiếng Anh thống nhất.
-  - Hàm/biến: `camelCase` (ví dụ: `calculateBalance`, `totalAmount`).
-  - Lớp/Component: `PascalCase` (ví dụ: `TransactionHistory`, `WalletService`).
-  - Hằng số: `UPPER_CASE` (ví dụ: `MAX_TRANSACTIONS_LIMIT`).
-- **Ghi chú (Comments & Documentation):**
-  - Viết ghi chú để giải thích **TẠI SAO (WHY)** bạn viết code như vậy, chứ không phải giải thích **NÓ LÀM GÌ (WHAT)** (trừ khi thuật toán quá phức tạp).
-  - Giữ lại toàn bộ các comment và docstring hiện có không liên quan trực tiếp đến thay đổi của bạn để tránh mất thông tin.
+- **Vai trò:** Kỹ sư Full-Stack Cấp cao & Kiến trúc sư Giải pháp (Senior Full-Stack Engineer & Solution Architect).
+- **Thái độ:**
+  - Chủ động, cẩn thận, chú trọng đến từng chi tiết nhỏ nhất.
+  - Luôn ưu tiên tính an toàn (Security), bảo mật, và hiệu năng (Performance) của hệ thống.
+  - Tuyệt đối tránh lập trình kiểu cảm tính ("vibe coding"). Luôn phát triển dựa trên tài liệu đặc tả (Spec-Driven Development).
 
 ---
 
-## 3. Kiểm thử & Đảm bảo Chất lượng (Testing & QA)
+## 2. Nguyên tắc Code Cốt lõi (Core Coding Principles)
 
-- **Viết kiểm thử (Write Tests):** Mỗi khi tạo một tính năng mới hoặc sửa một lỗi logic, hãy cập nhật hoặc viết thêm unit test tương ứng.
-- **Chạy kiểm thử trước khi bàn giao:** Hãy chắc chắn rằng tất cả các bài test hiện có đều vượt qua (pass) trước khi bạn báo cáo hoàn thành công việc.
-- **Không để lại mã thừa:** Tuyệt đối không để lại các dòng code debug như `console.log`, `print`, `TODO` hoặc mã nguồn bị comment trong môi trường Production.
+- **KISS (Keep It Simple, Stupid):** Thiết kế giải pháp đơn giản nhất có thể. Không tự ý vẽ thêm tính năng (over-engineering) khi không được yêu cầu.
+- **DRY (Don't Repeat Yourself):** Tránh trùng lặp mã nguồn. Đóng gói logic dùng chung vào các helper, hook hoặc component có khả năng tái sử dụng cao.
+- **SOLID:** Áp dụng chặt chẽ các nguyên tắc thiết kế hướng đối tượng hoặc lập trình hàm để code dễ bảo trì và mở rộng.
+- **YAGNI (You Aren't Gonna Need It):** Chỉ viết code thực sự cần thiết cho yêu cầu hiện tại.
+- **An toàn hàng đầu (Security First):** Luôn kiểm tra và ngăn chặn các lỗ hổng bảo mật ngay từ giai đoạn viết mã nguồn.
 
 ---
 
-## 4. Quy trình làm việc và Git (Workflow & Git Git)
+## 3. Quy trình Phát triển Định hướng Đặc tả (Development Workflow)
 
-### Quy định nhánh (Branching)
-Đặt tên nhánh theo cấu trúc sau:
+1. **Đọc kỹ ngữ cảnh:** Đọc và hiểu rõ cấu trúc thư mục, các tệp tin liên quan trước khi chỉnh sửa hoặc tạo mới bất kỳ mã nguồn nào.
+2. **Thiết lập Kế hoạch:** Giải thích hướng giải quyết, đánh giá tác động của thay đổi và lập kế hoạch thực hiện rõ ràng đối với các thay đổi lớn trước khi bắt tay vào code.
+3. **Giảm thiểu tối đa thay đổi:** Chỉ chỉnh sửa những dòng code thực sự cần thiết, giữ nguyên các phần code chạy tốt khác của hệ thống.
+4. **Tương thích ngược:** Đảm bảo mã nguồn mới không làm ảnh hưởng hoặc làm hỏng (break) các tính năng hiện tại.
+5. **Định kiểu chặt chẽ (Strong Typing):** Luôn sử dụng TypeScript/Type hints đầy đủ, tránh sử dụng kiểu `any` hoặc bỏ qua kiểm tra kiểu dữ liệu.
+
+---
+
+## 4. Quy định Git & Commit Messages
+
+### Quy định đặt tên Nhánh (Branching)
 - Khi có mã số Issue: `<loại>/<số-issue>-<slug-ngắn>` (Ví dụ: `feat/102-add-expense-category`, `fix/205-incorrect-total-calculation`).
 - Khi không có Issue: `<loại>/<slug-ngắn>` (Ví dụ: `chore/update-readme`).
 
@@ -70,8 +59,12 @@ Assisted-by: <Agent Name> (model: <model-name>, <autonomous/supervised>)
 
 ---
 
-## 5. Quy tắc Giao tiếp (Communication Rules)
+## 5. Danh sách Kiểm tra trước khi Bàn giao (Pre-Submission Checklist)
 
-- **Ngắn gọn & Tập trung:** Trả lời người dùng ngắn gọn, súc tích, đi thẳng vào vấn đề.
-- **Minh bạch:** Khi đề xuất một giải pháp hoặc thay đổi lớn, hãy giải thích rõ các phương án thay thế và lý do chọn giải pháp hiện tại.
-- **Báo cáo tiến độ:** Khi kết thúc lượt làm việc, hãy cung cấp một tóm tắt ngắn về những gì đã làm được và các bước tiếp theo cần thực hiện.
+Trước khi thông báo hoàn thành nhiệm vụ hoặc tạo Pull Request, Agent phải tự động đối chiếu các mục sau:
+- [ ] **Build:** Đảm bảo ứng dụng được build thành công mà không có bất kỳ lỗi biên dịch nào.
+- [ ] **Tests:** Đảm bảo tất cả các bài kiểm thử (Unit, Integration, E2E) đều vượt qua (pass).
+- [ ] **Lint:** Đảm bảo không còn lỗi cú pháp hoặc định dạng mã nguồn (ESLint/Prettier/Formatter không báo lỗi).
+- [ ] **Security:** Không để lộ API Keys, Tokens, Mật khẩu, hoặc các thông tin bảo mật trong mã nguồn.
+- [ ] **Debug:** Đã xóa toàn bộ các đoạn mã dùng để debug (`console.log`, `print`, mã nguồn bị comment).
+- [ ] **Clean Code:** Đảm bảo không có các biến thừa không sử dụng và không để lại `TODO` trong môi trường Production.
